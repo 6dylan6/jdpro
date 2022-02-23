@@ -1,4 +1,4 @@
-/*
+/*((
 京东摇钱树 ：jd_moneyTree.js
 更新时间：2021-4-23
 活动入口：京东APP我的-更多工具-摇钱树，[活动链接](https://uua.jr.jd.com/uc-fe-wxgrowing/moneytree/index/?channel=yxhd)
