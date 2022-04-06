@@ -691,7 +691,7 @@ function getListIntegral() {
               //await lottery();
               //await $.wait(500);
             }
-          } else {
+           else {
             console.log(`integralRecord失败：${JSON.stringify(data)}`);
           }
         }
