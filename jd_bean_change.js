@@ -960,7 +960,7 @@ async function showMsg() {
 		allMessageGp4 += ReturnMessageTitle+ReturnMessage + `\n`;
 	}
 	if (userIndex2 == -1 && userIndex3 == -1 && userIndex4 == -1) {
-		allMessage += ReturnMessageTitle+ReturnMessage + `\n`;
+		allMessage += ReturnMessageTitle+ReturnMessage + `\n================================\n`;
 	}
 
 	console.log(`${ReturnMessageTitle+ReturnMessage}`);
