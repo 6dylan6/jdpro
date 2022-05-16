@@ -150,7 +150,7 @@ async function healthyDay_getHomeData(type = true) {
         } else {
           if (safeGet(data)) {
             data = JSON.parse(data);
-            if (type) 
+            if (type) {
                 for (let key of Object.keys(data.data.result.hotTaskVos).reverse()) {
                   let vo = data.data.result.hotTaskVos[key]
                   if (vo.status !== 2) {
