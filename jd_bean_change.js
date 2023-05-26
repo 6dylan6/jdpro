@@ -141,7 +141,7 @@ if ($.isNode()) {
 //else
 	//console.log(`检测到未配置Wxpusher的Token，禁用一对一推送...`);
 
-let jdSignUrl = 'https://api.nolanstore.top/sign'
+let jdSignUrl = 'https://api.nolanstore.cc/sign'
 if (process.env.SIGNURL)
 	jdSignUrl = process.env.SIGNURL;
 
