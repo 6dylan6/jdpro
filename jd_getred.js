@@ -1,6 +1,6 @@
 /*
 618  变量：CODE618="XXX"
-0 0,8,20 * * * jd_getred.js
+0 0,20 * * * jd_getred.js
 */
 
 const $ = new Env('618Red');
