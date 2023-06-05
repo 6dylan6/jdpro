@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ## Build 20220831-001-test
-## 6dylan6_0126
+## 6dylan6_0605
 
 name_js=(
   jd_farm_help
@@ -811,6 +811,7 @@ Recombin_CK_cal(){
     ## 末尾Cookie
     combine_bottom(){
         local array_bottom i
+        echo ori_array
         if [[ $Bottom_CK && ! $jdCookie_bottom ]]; then
             bottom_ck="$(def_urldecode $Bottom_CK | perl -pe "{s|,| |g;}")"
             i=0
@@ -948,7 +949,7 @@ gen_pt_pin_array
 #JS_Deps_Replace
 TempBlock_CK
 #remove_void_ck
-if [[ -z $cookieStr ]];then
+if [[ $* != *desi* && $* != *conc* ]];then
 Recombin_CK
 fi
 combine_only
