@@ -25,25 +25,22 @@ curl -sSL https://js.nbplay.site/https://raw.githubusercontent.com/6dylan6/jdpro
 
 【注意】2.11.1前版本青龙config.sh配置把GithubProxyUrl="https://ghproxy.com/ （差不在多19行）" 修改为GithubProxyUrl=""，否则拉取失败，以上版本无需配置。
 
-2.13版本以上青龙拉库方式变了，到订阅管理新建订阅，正确配置[参考](https://github.com/6dylan6/jdpro/discussions/680)
+2.13版本以上青龙拉库方式变了，到订阅管理新建订阅，正确配置[参考](https://github.com/6dylan6/jdpro/issues/22)
 
 国内机用下面指令（带代理）：
 
 ```
-ql repo https://ghproxy.com/https://github.com/6dylan6/jdpro.git "jd_|jx_|jddj_" "backUp" "^jd[^_]|USER|JD|function|sendNotify"
+ql repo https://js.nbplay.site/https://github.com/6dylan6/jdpro.git "jd_|jx_|jddj_" "backUp" "^jd[^_]|USER|JD|function|sendNotify"
 
 ```
-如默认代理ghproxy.com 拉不动，换备用的 js.nbplay.site 试试
+如默认代理拉不了，自行找可用代理
 
-国外机用下面指令（无需代理）：
+国外机（无需代理）用下面指令：
 
 ```
 ql repo https://github.com/6dylan6/jdpro.git "jd_|jx_|jddj_" "backUp" "^jd[^_]|USER|JD|function|sendNotify"
 
 ```
-
-Gitee版不能正常拉取，已停止维护！（20220711）
-
 
 任务定时建议（每2小时的45分更新） 45 7-23/2 * * *  
 
