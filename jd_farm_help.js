@@ -1138,7 +1138,7 @@ function shareCodesFormat() {
             //newShareCodes = newShareCodes.concat(readShareCodeRes.data || []);
             newShareCodes = [...new Set([...newShareCodes, ...(readShareCodeRes.data || [])])];
         }
-        newShareCodes = newShareCodes.filter(item => { return fulled.indexOf(item) == -1 });
+        newShareCodes = newShareCodes.filter(item => fulled.indexOf(item) == -1 && !!item);
         console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify(newShareCodes)}`)
         resolve();
     })
