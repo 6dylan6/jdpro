@@ -1,7 +1,8 @@
 /*
 任务，抽奖
+晚了没水
 入口：https://pro.m.jd.com/mall/active/4BybhXN5cfWZfXktap24KHAV2tCv/index.html
-https://raw.githubusercontent.com/6dylan6/jdpro/main/jd_pdkh.js
+1 1 1 1 * https://raw.githubusercontent.com/6dylan6/jdpro/main/jd_pdkh.js
 updatetime:2023/6/11
  */
 const $ = new Env('派对狂欢城');
