@@ -121,7 +121,7 @@ async function siteppM_skuOnceApply() {
             if (data.flag) {
               await $.wait(25 * 1000);
               //await siteppM_appliedSuccAmount();
-			  if (data.succAmount && data.succAmount ！= 0){
+			  if (data.succAmount && data.succAmount != 0){
 			      console.log(`保价成功：返还${data.succAmount}元`)
                   message += `保价成功：返还${data.succAmount}元\n`
 			  } else {
