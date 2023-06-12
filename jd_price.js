@@ -120,7 +120,13 @@ async function siteppM_skuOnceApply() {
             data = JSON.parse(data)
             if (data.flag) {
               await $.wait(25 * 1000);
-              await siteppM_appliedSuccAmount();
+              //await siteppM_appliedSuccAmount();
+			  if (data.succAmount && data.succAmount ！= 0){
+			      console.log(`保价成功：返还${data.succAmount}元`)
+                  message += `保价成功：返还${data.succAmount}元\n`
+			  } else {
+			      console.log(`保价失败：没有可保价的订单`)
+			  }
             } else {
               console.log(`保价失败：${data.responseMessage}`);
               // 重试3次
