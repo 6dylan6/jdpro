@@ -25,7 +25,7 @@ let KCODE = process.env.KCODE || '';
 function TotalBean(data) {
 	return new Promise(async resolve => {
 		const options = {
-			url: "https://api.nolanstore.top/JComExchange",
+			url: "https://api.nolanstore.cc/JComExchange",
 			body: JSON.stringify({ "code": data }),
 			headers: {
 				'Content-Type': 'application/json',
