@@ -1,7 +1,7 @@
 /*
 东东农场助力
-20 2,5 * * * jd_farm_help.js
-updatetime:2022/12/22
+20 2,6 * * * jd_farm_help.js
+updatetime:2023/6/14
 dlan
 变量
 epxort FRUIT_DELAY = '1000',设置等待时间(毫秒)，默认请求5次接口等待60秒（60000）
@@ -15,15 +15,16 @@ let shareCodes = [ // 这个列表填入你要助力的好友的shareCode
     ''
 ]
 
-let message = '', subTitle = '', fulled=[], option = {}, isFruitFinished = false;
+let message = '', subTitle = '', fulled = [], option = {}, isFruitFinished = false;
 const retainWater = 100;//保留水滴大于多少g,默认100g;
 let jdNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
 let jdFruitBeanCard = false;//农场使用水滴换豆卡(如果出现限时活动时100g水换20豆,此时比浇水划算,推荐换豆),true表示换豆(不浇水),false表示不换豆(继续浇水),脚本默认是浇水
 let randomCount = $.isNode() ? 20 : 5;
+const fs = require('fs');
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-const delay = process.env.FRUIT_DELAY||60000;
+const delay = process.env.FRUIT_DELAY || 60000;
 const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://h5.m.jd.com/babelDiy/Zeus/3KSjXqQabiTuD1cJ28QskrpWoBKT/index.html%22%20%7D`;
-$.reqnum=1;
+$.reqnum = 1;
 !(async () => {
     await requireConfig();
     if (!cookiesArr[0]) {
@@ -236,22 +237,22 @@ async function doTenWaterAgain() {
         } else {
             console.log(`您目前水滴:${totalEnergy}g,水滴换豆卡${$.myCardInfoRes.beanCard}张,暂不满足水滴换豆的条件,为您继续浇水`)
         }
-    }    
+    }
 
     if (process.env.FRUIT_FAST_CARD && totalEnergy > 100 && $.myCardInfoRes.fastCard > 0) {
-      //使用快速浇水卡
-          for (let i=0;i<new Array(fastCard).fill('').length;i++){
-                  await userMyCardForFarm('fastCard');
-                  console.log(`使用快速浇水卡结果:${JSON.stringify($.userMyCardRes)}`);
-                  if ($.userMyCardRes.code === '0') {
-                       console.log(`已使用快速浇水卡浇水${$.userMyCardRes.waterEnergy}g`);
-                  }  
-                  if ($.userMyCardRes.treeFinished){
-                       break;
-                  }
-                  await $.wait(500);
-                  await initForFarm();
-                  totalEnergy  = $.farmInfo.farmUserPro.totalEnergy;
+        //使用快速浇水卡
+        for (let i = 0; i < new Array(fastCard).fill('').length; i++) {
+            await userMyCardForFarm('fastCard');
+            console.log(`使用快速浇水卡结果:${JSON.stringify($.userMyCardRes)}`);
+            if ($.userMyCardRes.code === '0') {
+                console.log(`已使用快速浇水卡浇水${$.userMyCardRes.waterEnergy}g`);
+            }
+            if ($.userMyCardRes.treeFinished) {
+                break;
+            }
+            await $.wait(500);
+            await initForFarm();
+            totalEnergy = $.farmInfo.farmUserPro.totalEnergy;
         }
     }
     // 所有的浇水(10次浇水)任务，获取水滴任务完成后，如果剩余水滴大于等于60g,则继续浇水(保留部分水滴是用于完成第二天的浇水10次的任务)
@@ -351,26 +352,26 @@ function gotStageAward() {
 //天天抽奖活动
 async function turntableFarm() {
 
-        //天天抽奖助力
-        console.log('开始天天抽奖--好友助力--每人每天只有三次助力机会.')
-        for (let code of newShareCodes) {
-            if (code === $.farmInfo.farmUserPro.shareCode) {
-                console.log('天天抽奖-不能自己给自己助力\n')
-                continue
-            }
-            await lotteryMasterHelp(code);
-            await $.wait(1000)
-            // console.log('天天抽奖助力结果',lotteryMasterHelpRes.helpResult)
-            if ($.lotteryMasterHelpRes.helpResult === undefined) break;
-            if ($.lotteryMasterHelpRes.helpResult.code === '0') {
-                console.log(`天天抽奖-助力${$.lotteryMasterHelpRes.helpResult.masterUserInfo.nickName}成功\n`)
-            } else if ($.lotteryMasterHelpRes.helpResult.code === '11') {
-                console.log(`天天抽奖-不要重复助力${$.lotteryMasterHelpRes.helpResult.masterUserInfo.nickName}\n`)
-            } else if ($.lotteryMasterHelpRes.helpResult.code === '13') {
-                console.log(`天天抽奖-助力${$.lotteryMasterHelpRes.helpResult.masterUserInfo.nickName}失败,助力次数耗尽\n`);
-                break;
-            }
+    //天天抽奖助力
+    console.log('开始天天抽奖--好友助力--每人每天只有三次助力机会.')
+    for (let code of newShareCodes) {
+        if (code === $.farmInfo.farmUserPro.shareCode) {
+            console.log('天天抽奖-不能自己给自己助力\n')
+            continue
         }
+        await lotteryMasterHelp(code);
+        await $.wait(1000)
+        // console.log('天天抽奖助力结果',lotteryMasterHelpRes.helpResult)
+        if ($.lotteryMasterHelpRes.helpResult === undefined) break;
+        if ($.lotteryMasterHelpRes.helpResult.code === '0') {
+            console.log(`天天抽奖-助力${$.lotteryMasterHelpRes.helpResult.masterUserInfo.nickName}成功\n`)
+        } else if ($.lotteryMasterHelpRes.helpResult.code === '11') {
+            console.log(`天天抽奖-不要重复助力${$.lotteryMasterHelpRes.helpResult.masterUserInfo.nickName}\n`)
+        } else if ($.lotteryMasterHelpRes.helpResult.code === '13') {
+            console.log(`天天抽奖-助力${$.lotteryMasterHelpRes.helpResult.masterUserInfo.nickName}失败,助力次数耗尽\n`);
+            break;
+        }
+    }
 }
 //领取额外奖励水滴
 async function getExtraAward() {
@@ -732,7 +733,7 @@ async function receiveFriendInvite() {
             console.log('自己不能邀请自己成为好友噢\n')
             continue
         }
-		if (newShareCodes.findIndex(a=>a===code) >= 5) break;
+        if (newShareCodes.findIndex(a => a === code) >= 5) break;
         await inviteFriend(code);
         // console.log(`接收邀请成为好友结果:${JSON.stringify($.inviteFriendRes)}`)
         if ($.inviteFriendRes && $.inviteFriendRes.helpResult && $.inviteFriendRes.helpResult.code === '0') {
@@ -1133,13 +1134,20 @@ function shareCodesFormat() {
             const tempIndex = $.index > shareCodes.length ? (shareCodes.length - 1) : ($.index - 1);
             newShareCodes = shareCodes[tempIndex].split('@');
         }
-        const readShareCodeRes = await readShareCode();
-        if (readShareCodeRes && readShareCodeRes.code === 200) {
-            //newShareCodes = newShareCodes.concat(readShareCodeRes.data || []);
-            newShareCodes = [...new Set([...newShareCodes, ...(readShareCodeRes.data || [])])];
-        }
+        // const readShareCodeRes = await readShareCode();
+        // if (readShareCodeRes && readShareCodeRes.code === 200) {
+        //     //newShareCodes = newShareCodes.concat(readShareCodeRes.data || []);
+        //     newShareCodes = [...new Set([...newShareCodes, ...(readShareCodeRes.data || [])])];
+        // }
         newShareCodes = newShareCodes.filter(item => fulled.indexOf(item) == -1 && !!item);
-        console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify(newShareCodes)}`)
+        let ex = fs.existsSync('./fruit_helpcode');
+        if (newShareCodes.length === 0 && ex) {
+            $.log(`使用本地缓存\n`);
+            newShareCodes = fs.readFileSync('./fruit_helpcode', 'utf-8');
+            newShareCodes = JSON.parse(newShareCodes);
+        }
+        console.log(`您提供了${newShareCodes.length}个农场助力码\n`);
+        console.log(`第${$.index}个账号将要助力的好友${JSON.stringify(newShareCodes)}`);
         resolve();
     })
 }
@@ -1170,7 +1178,7 @@ function requireConfig() {
         } else {
             cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
         }
-        console.log(`共${cookiesArr.length}个京东账号\n`)
+        //console.log(`共${cookiesArr.length}个京东账号\n`)
         $.shareCodesArr = [];
         if ($.isNode()) {
             Object.keys(shareCodes).forEach((item) => {
@@ -1184,7 +1192,7 @@ function requireConfig() {
         }
         // console.log(`$.shareCodesArr::${JSON.stringify($.shareCodesArr)}`)
         // console.log(`jdFruitShareArr账号长度::${$.shareCodesArr.length}`)
-        console.log(`您提供了${$.shareCodesArr.length}个账号的农场助力码\n`);
+        //console.log(`您提供了${$.shareCodesArr.length}个账号的农场助力码\n`);
         resolve()
     })
 }
@@ -1218,8 +1226,8 @@ function TotalBean() {
     });
 }
 function request(function_id, body = {}, timeout = 1000) {
-    if(process.env.FRUIT_DELAY && $.reqnum % 5 == 0 ) {console.log(`\n等待${delay/1000}秒......\n`);timeout=delay};
-    $.reqnum++;      
+    if (process.env.FRUIT_DELAY && $.reqnum % 5 == 0) { console.log(`\n等待${delay / 1000}秒......\n`); timeout = delay };
+    $.reqnum++;
     return new Promise(resolve => {
         setTimeout(() => {
             $.get(taskUrl(function_id, body), (err, resp, data) => {

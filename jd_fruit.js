@@ -7,14 +7,14 @@
 ==========================Quantumultx=========================
 [task_local]
 #jd免费水果
-10 6-18/6 * * * jd_fruit.js, tag=东东农场, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdnc.png, enabled=true
+15 3,13,18 * * * jd_fruit.js, tag=东东农场, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdnc.png, enabled=true
 =========================Loon=============================
 [Script]
-cron "10 6-18/6 * * *" script-path=jd_fruit.js,tag=东东农场
+cron "15 3,13,18 * * *" script-path=jd_fruit.js,tag=东东农场
 =========================Surge============================
-东东农场 = type=cron,cronexp="10 6-18/6 * * *",wake-system=1,timeout=3600,script-path=jd_fruit.js
+东东农场 = type=cron,cronexp="15 3,13,18 * * *",wake-system=1,timeout=3600,script-path=jd_fruit.js
 =========================小火箭===========================
-东东农场 = type=cron,script-path=jd_fruit.js, cronexpr="10 6-18/6 * * *", timeout=3600, enable=true
+东东农场 = type=cron,script-path=jd_fruit.js, cronexpr="15 3,13,18 * * *", timeout=3600, enable=true
 jd免费水果 搬的https://github.com/liuxiaoyucc/jd-helper/blob/a6f275d9785748014fc6cca821e58427162e9336/fruit/fruit.js
 变量：
 export DO_TEN_WATER_AGAIN='true' 攒水滴只交10次水，默认不攒水滴
@@ -39,14 +39,17 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
 const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://h5.m.jd.com/babelDiy/Zeus/3KSjXqQabiTuD1cJ28QskrpWoBKT/index.html%22%20%7D`;
 const delay = process.env.FRUIT_DELAY || 60000;
 const ua = require('./USER_AGENTS');
+const fs = require('fs');
+let cachecode = [];
 $.reqnum = 1;
+fs.existsSync('./fruit_helpcode') && (cachecode = JSON.parse(fs.readFileSync('./fruit_helpcode', 'utf8')));
 !(async () => {
     await requireConfig();
     if (!cookiesArr[0]) {
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
         return;
     }
-     if (process.env.DO_TEN_WATER_AGAIN) {
+    if (process.env.DO_TEN_WATER_AGAIN) {
         allMessage = '【攒水滴模式已开启，每天只浇水10次！】\n\n';
     }
     for (let i = 0; i < cookiesArr.length; i++) {
@@ -70,11 +73,12 @@ $.reqnum = 1;
             message = '';
             subTitle = '';
             option = {};
-            $.UA = ua.UARAM ? ua.UARAM() : ua.USER_AGENT;      
+            $.UA = ua.UARAM ? ua.UARAM() : ua.USER_AGENT;
             //await shareCodesFormat();
             await jdFruit();
         }
     }
+    fs.writeFile('./fruit_helpcode', JSON.stringify(cachecode), (e) => { e && console.log(e) });
     if ($.isNode() && allMessage && $.ctrTemp) {
         await notify.sendNotify(`${$.name}`, `${allMessage}`)
     }
@@ -89,12 +93,14 @@ async function jdFruit() {
     subTitle = `【京东账号${$.index}🆔】${$.nickName || $.UserName}`;
     try {
         await initForFarm();
+
         if ($.farmInfo.farmUserPro) {
             // option['media-url'] = $.farmInfo.farmUserPro.goodsImage;
             message = `【水果名称】${$.farmInfo.farmUserPro.name}\n`;
             console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${$.farmInfo.farmUserPro.shareCode}\n`);
+            !cachecode.includes($.farmInfo.farmUserPro.shareCode) && cachecode.push($.farmInfo.farmUserPro.shareCode);
             console.log(`\n【已成功兑换水果】${$.farmInfo.farmUserPro.winTimes}次\n`);
-            message += `【已兑换水果】${$.farmInfo.farmUserPro.winTimes}次\n`;
+            message += `【已兑换水果】${$.farmInfo.farmUserPro.winTimes}次\n`;      
             //await masterHelpShare();//助力好友
             if ($.farmInfo.treeState === 2 || $.farmInfo.treeState === 3) {
                 option['open-url'] = urlSchema;
@@ -250,7 +256,7 @@ async function doDailyTask() {
 }
 async function predictionFruit() {
     console.log('开始预测水果成熟时间\n');
-    await initForFarm();    
+    await initForFarm();
     await taskInitForFarm();
     let waterEveryDayT = $.farmTask.firstWaterInit.totalWaterTimes;//今天到到目前为止，浇了多少次水
     message += `【今日共浇水】${waterEveryDayT}次\n`;
@@ -1263,9 +1269,9 @@ async function initForFarm() {
                     console.log(JSON.stringify(err));
                 } else {
                     if (safeGet(data)) {
-                        $.farmInfo = JSON.parse(data);                        
-                        if ($.farmInfo.code != 0){
-                            ct++;                  
+                        $.farmInfo = JSON.parse(data);
+                        if ($.farmInfo.code != 0) {
+                            ct++;
                             await initForFarm();
 
                         }
@@ -1285,11 +1291,11 @@ async function initForFarm() {
 async function taskInitForFarm() {
     console.log('\n初始化任务列表')
     const functionId = arguments.callee.name.toString();
-    $.farmTask = await request(functionId, {"version":19,"channel":1,"babelChannel":"121","lat":"","lng":""});
+    $.farmTask = await request(functionId, { "version": 19, "channel": 1, "babelChannel": "121", "lat": "", "lng": "" });
 }
 //获取好友列表API
 async function friendListInitForFarm() {
-    $.friendList = await request('friendListInitForFarm', {"version":19,"channel":1,"babelChannel":"121","lat":"","lng":""});
+    $.friendList = await request('friendListInitForFarm', { "version": 19, "channel": 1, "babelChannel": "121", "lat": "", "lng": "" });
     // console.log('aa', aa);
 }
 // 领取邀请好友的奖励API
@@ -1399,7 +1405,7 @@ function requireConfig() {
         } else {
             cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
         }
-        console.log(`共${cookiesArr.length}个京东账号\n`)
+        //console.log(`共${cookiesArr.length}个京东账号\n`)
         $.shareCodesArr = [];
         if ($.isNode()) {
             Object.keys(shareCodes).forEach((item) => {
