@@ -1,19 +1,11 @@
 
 ## 6dy
 
->加密审查，无重复，默认不开卡加购，内部互助(可调模式);
+声明: 此库所有内容仅用于测试学习，测试完后请自行删除！！！
 
- 
->欢迎大家issue、pr，会一一回复！
+### [TG频道](https://t.me/dylan_jdpro)
 
-
-### 注意ck安全，谨慎执行不明来历的js、app、exe、插件等，过期ck都能复活（还有其他不为人知的手段。。。）！
-
-### 已知MaiARK短信登录工具偷CK，不要使用！！！
-
-### 防走失[TG频道](https://t.me/dylan_jdpro)
-
-### 一键部署（2.11.3版本青龙，默认国内机拉库命令，建好后根据自己情况调整）
+### 一键部署（2.11.3版本青龙）
 
 使用root用户运行下面一串命令，仅在Centos/Ubuntu系统测试，其他系统自测
 
@@ -23,9 +15,7 @@ curl -sSL https://js.nbplay.site/https://raw.githubusercontent.com/6dylan6/jdpro
 
 ## 拉库指令
 
-【注意】2.11.1前版本青龙config.sh配置把GithubProxyUrl="https://ghproxy.com/ （差不在多19行）" 修改为GithubProxyUrl=""，否则拉取失败，以上版本无需配置。
-
-2.13版本以上青龙拉库方式变了，到订阅管理新建订阅，正确配置[参考](https://github.com/6dylan6/jdpro/issues/22)
+正确配置[参考](https://github.com/6dylan6/jdpro/issues/22)
 
 国内机用下面指令（带代理）：
 
@@ -33,7 +23,7 @@ curl -sSL https://js.nbplay.site/https://raw.githubusercontent.com/6dylan6/jdpro
 ql repo https://js.nbplay.site/https://github.com/6dylan6/jdpro.git "jd_|jx_|jddj_" "backUp" "^jd[^_]|USER|JD|function|sendNotify"
 
 ```
-如默认代理拉不了，自行找可用代理
+默认代理拉不了，自行找可用代理
 
 国外机（无需代理）用下面指令：
 
@@ -56,7 +46,7 @@ ql repo https://github.com/6dylan6/jdpro.git "jd_|jx_|jddj_" "backUp" "^jd[^_]|U
 
 1、青龙部署。
 
-2、修改青龙config.sh配置，差不多在17行（特别注意，没有修改此配置，任务拉不全，一键部署可忽略此处）；
+2、登录青龙配置管理config.sh修改，差不多在17行（特别注意，没有修改此配置，任务拉不全，一键部署可忽略此处）；
 
 RepoFileExtensions="js py"修改为 RepoFileExtensions="js py sh ts" 保存；
 
