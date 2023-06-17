@@ -1916,7 +1916,7 @@ function PushDeerNotify(text, desp) {
       desp = desp.replace(/%0A/g, '%0A%0A');
       const options = {
         url: `https://api2.pushdeer.com/message/push`,
-        body: `pushkey=${PUSHDEER_KEY}&text=${text}&desp=${desp}&type=markdown`,
+        body: `pushkey=${PUSHDEER_KEY}&text=${text}&desp=${desp}&type="markdown"`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
