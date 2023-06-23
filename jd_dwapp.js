@@ -1,8 +1,8 @@
 /*
 积分换话费
 入口：首页-生活·缴费-积分换话费 
-update：2023/6/10
-33 3,18 * * * jd_dwapp.js
+update：2023/6/23
+20 2,15 * * * jd_dwapp.js
 */
 
 const $ = new Env('积分换话费');
@@ -41,14 +41,16 @@ if ($.isNode()) {
                 continue
             }
             $.UUID = getUUID('xxxxxxxxxxxxxxxx');
-            await main()
+            await main();
+            await $.wait(3000);
         }
     }
 })().catch((e) => { $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '') }).finally(() => { $.done(); })
 
 async function main() {
     $.log("去签到")
-    await usersign()
+    await usersign();
+    await $.wait(2000);
     await tasklist();
     if ($.tasklist) {
         for (let i of $.tasklist) {
@@ -131,9 +133,21 @@ async function taskreceive(id) {
 }
 
 async function usersign() {
-    body = await sign()
+    body = await sign();
+    body.channelSource = 'txzs';
+    let opt = {
+        url: `https://api.m.jd.com/user/color/task/dwSign`,
+        body: `appid=txsm-m&client=h5&functionId=DATAWALLET_USER_SIGN&body=${encodeURIComponent(JSON.stringify(body))}`,
+        headers: {
+            "Origin": "https://txsm-m.jd.com",
+            "Accept": "*/*",
+            "User-Agent": `jdapp;iPhone;10.1.0;13.5;${$.UUID};network/wifi;model/iPhone11,6;addressid/4596882376;appBuild/167774;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 13_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`,
+            "Referer": "https://txsm-m.jd.com/",
+            "Cookie": cookie,
+        }
+    }
     return new Promise(resolve => {
-        $.post(taskPostUrl("dwSign", body), (err, resp, data) => {
+        $.post(opt, (err, resp, data) => {
             try {
                 if (err) {
                     console.log(`${err}`)
@@ -146,7 +160,7 @@ async function usersign() {
                             console.log(`签到成功：获得积分${data.data.signInfo.signNum}`);
                             $.log(`总积分：${data.data.totalNum}\n`);
                         } else {
-                            console.log("似乎签到完成了\n");
+                            console.log("已完成签到！！！\n");
                         }
                     }
                 }
