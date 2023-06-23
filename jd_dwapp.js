@@ -154,14 +154,15 @@ async function usersign() {
                     console.log(`${$.name} API请求失败，请检查网路重试`)
                 } else {
                     data = JSON.parse(data);
-                    JSON.stringify(data);
                     if (data) {
                         if (data.code === 200) {
                             console.log(`签到成功：获得积分${data.data.signInfo.signNum}`);
                             $.log(`总积分：${data.data.totalNum}\n`);
-                        } else {
+                        } else if(data.code === 302){
                             console.log("已完成签到！！！\n");
-                        }
+                        } else {
+							$.log(JSON.stringify(data));
+						}
                     }
                 }
             } catch (e) {
