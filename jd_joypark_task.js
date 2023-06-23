@@ -1,5 +1,5 @@
 /*
-jd_joypark_task.js
+8 8 * * * jd_joypark_task.js
 updatetime:2023/6/23
 */
 const $ = new Env('汪汪庄园任务');

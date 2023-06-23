@@ -1,5 +1,5 @@
 /*
-12 8 * * * jd_joypark_task.js, tag=汪汪乐园每日任务, img-url=https://raw.githubusercontent.com/tsukasa007/icon/master/jd_joypark_task.png, enabled=true
+12 8 * * * jx_joypark_task.js
 */
 const $ = new Env('牛牛乐园任务');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
