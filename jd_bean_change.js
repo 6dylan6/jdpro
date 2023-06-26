@@ -2157,7 +2157,7 @@ function dwappexpire() {
                     if (data.code == 200) {
                         data = data.data.userOperateList.length !== 0 ? new Date(data.data.userOperateList[0].time).toLocaleDateString() : '';
                     } else {
-                        console.log(data.msg);
+                        //console.log(data.msg);
 						data = '';
                     }
                 }
