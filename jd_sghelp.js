@@ -3,7 +3,7 @@
 数钱助力
 前5个ck做车头, 变量SQTOP='10'，10个助力满
 1 1 1 1 * https://raw.githubusercontent.com/6dylan6/jdpro/main/jd_sqhelp.js
-updatetime:2023/4/28
+updatetime:2023/6/28
  */
 
 const $ = new Env('数钱助力');
