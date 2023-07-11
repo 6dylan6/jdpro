@@ -197,7 +197,7 @@ async function tasklist() {
                     console.log(`${$.name} API请求失败，请检查网路重试`)
                 } else {
                     data = JSON.parse(data)
-                    if (JSON.stringify(data) !='{}') {
+                    if (JSON.stringify(data.data) !='{}') {
                         $.tasklist = data.data
                     }
                 }
