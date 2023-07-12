@@ -3,7 +3,7 @@
 转赚红包
 执行流程，前5ck输出助力码--助力--抽奖--检查提现
 前5个ck做车头,变量JDZHBTOP='10'
-多少助力换下一个，默认50个 ，可调整变量JDZHBJNUM='100';
+多少助力换下一个，默认50个 ，可调整变量JDZHBNUM='100';
 运行一次抽奖次数,默认抽完，控制变量JDZHBLTNUM='200'
 1 1 1 1 * https://raw.githubusercontent.com/6dylan6/jdpro/main/jd_zzhb.js
 updatetime:2023/7/12
