@@ -38,7 +38,7 @@ const ua = require('./USER_AGENTS');
 const fs = require('fs');
 let cachecode = [];
 $.reqnum = 1;
-fs.existsSync('./fruit_helpcode') && (cachecode = JSON.parse(fs.readFileSync('./fruit_helpcode', 'utf8')));
+//fs.existsSync('./fruit_helpcode') && (cachecode = JSON.parse(fs.readFileSync('./fruit_helpcode', 'utf8')));
 !(async () => {
     await requireConfig();
     if (!cookiesArr[0]) {
@@ -94,7 +94,7 @@ async function jdFruit() {
             // option['media-url'] = $.farmInfo.farmUserPro.goodsImage;
             message = `【水果名称】${$.farmInfo.farmUserPro.name}\n`;
             console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${$.farmInfo.farmUserPro.shareCode}\n`);
-            !cachecode.includes($.farmInfo.farmUserPro.shareCode) && cachecode.push($.farmInfo.farmUserPro.shareCode);
+            cachecode.push($.farmInfo.farmUserPro.shareCode);
             console.log(`\n【已成功兑换水果】${$.farmInfo.farmUserPro.winTimes}次\n`);
             message += `【已兑换水果】${$.farmInfo.farmUserPro.winTimes}次\n`;      
             //await masterHelpShare();//助力好友
