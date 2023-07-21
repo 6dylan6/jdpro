@@ -340,7 +340,7 @@ def getToken(wskey):  # 方法 获取 Wskey转换使用的 Token 由 JD_API 返�
 # 备用
 def getToken_bak(wskey):  # 方法 获取 Wskey转换使用的 Token 由 JD_API 返回 这里传递 wskey
     try:  # 异常捕捉
-        url = str(base64.b64decode('aHR0cHM6Ly9hcGkubm9sYW5zdG9yZS50b3Av').decode()) + 'sign'  # 设置云端服务器地址 路由为 genToken
+        url = str(base64.b64decode('aHR0cHM6Ly9hcGkubm9sYW5zdG9yZS5jYy8=').decode()) + 'sign'  # 设置云端服务器地址 路由为 genToken
         header = {"Content-Type": "application/json"}  # 设置 HTTP头
         data = {'body':{"to":"https%3a%2f%2fplogin.m.jd.com%2fjd-mlogin%2fstatic%2fhtml%2fappjmp_blank.html"},'fn':'genToken'}
         params = requests.post(url=url, headers=header, json=data, verify=False, timeout=20).json()  # 设置 HTTP请求参数 超时 20秒 Json解析
