@@ -250,7 +250,7 @@ if(DisableIndex!=-1){
 }
 
 //查优惠券
-let EnableChaQuan=true;
+let EnableChaQuan=false;
 DisableIndex=strDisableList.findIndex((item) => item === "查优惠券");
 if(DisableIndex!=-1){
 	console.log("检测到设定关闭优惠券查询");
