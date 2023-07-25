@@ -35,7 +35,6 @@ const jdVersion = '10.1.2'
             iphoneVersion = [Math.ceil(Math.random() * 2 + 12), Math.ceil(Math.random() * 4)]
             UA = `jdapp;iPhone;${jdVersion};${Math.ceil(Math.random() * 2 + 12)}.${Math.ceil(Math.random() * 4)};${randomString(40)};network/wifi;model/iPhone12,1;addressid/0;appBuild/167802;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS ${iphoneVersion[0]}_${iphoneVersion[1]} like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`
             UUID = UA.split(';') && UA.split(';')[4] || '';
-            console.log(UA)
             console.log(`\n*****开始【京东账号${$.index}】${$.UserName}****\n`);
             await run();
             await $.wait(3000);
