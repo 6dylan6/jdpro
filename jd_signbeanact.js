@@ -39,7 +39,7 @@ function randomString(e) {
             $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
             $.index = i + 1;
             $.bean = 0
-            UA = ua.UARAM ? ua.UARAM() : ua.USER_AGENT;
+            //UA = ua.UARAM ? ua.UARAM() : ua.USER_AGENT;
             console.log(`\n*****开始【京东账号${$.index}】${$.UserName}****\n`);
             await run();
             await $.wait(3000);
