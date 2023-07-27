@@ -4,7 +4,7 @@
 updatetime:2023/6/14
 dlan
 变量
-epxort FRUIT_DELAY = '1000',设置等待时间(毫秒)，默认请求5次接口等待60秒（60000）
+epxort FRUIT_DELAY = '1000',设置等待时间(毫秒)，默认请求5次接口等待10秒（1000）
 */
 const $ = new Env('东东农场-助力');
 let cookiesArr = [], cookie = '', jdFruitShareArr = [], isBox = false, notify, newShareCodes, allMessage = '';
@@ -22,7 +22,7 @@ let jdFruitBeanCard = false;//农场使用水滴换豆卡(如果出现限时活�
 let randomCount = $.isNode() ? 20 : 5;
 const fs = require('fs');
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
-const delay = process.env.FRUIT_DELAY || 60000;
+const delay = process.env.FRUIT_DELAY || 10000;
 const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://h5.m.jd.com/babelDiy/Zeus/3KSjXqQabiTuD1cJ28QskrpWoBKT/index.html%22%20%7D`;
 $.reqnum = 1;
 !(async () => {
@@ -1226,7 +1226,7 @@ function TotalBean() {
     });
 }
 function request(function_id, body = {}, timeout = 1000) {
-    if (process.env.FRUIT_DELAY && $.reqnum % 5 == 0) { console.log(`\n等待${delay / 1000}秒......\n`); timeout = delay };
+    if ( $.reqnum % 5 == 0) { console.log(`\n等待${delay / 1000}秒......\n`); timeout = delay };
     $.reqnum++;
     return new Promise(resolve => {
         setTimeout(() => {
