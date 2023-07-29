@@ -1,6 +1,6 @@
 /*
 牛牛乐园 入口：京喜特价-我的
-1 1 1 1 * https://raw.githubusercontent.com/6dylan6/jdpro/main/jx_niuniu_merge.js
+7 7 7 7 * https://raw.githubusercontent.com/6dylan6/jdpro/main/jx_niuniu_merge.js
 跑会黑，一周后解，循环
 updatetime:2023/07/29
 */
