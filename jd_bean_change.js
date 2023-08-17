@@ -1055,22 +1055,36 @@ async function Monthbean() {
 async function jdCash() {
 	if (!EnableCash)
 		return;
-	let functionId = "cash_homePage";
-	let sign = await getSignfromNolan(functionId, {});
+    let opt = {
+        url: `https://api.m.jd.com`,
+        body: `functionId=cash_exchange_center&body={"version":"1","channel":"app"}&appid=signed_wh5&client=android&clientVersion=11.8.0&t=${Date.now()}`,
+        headers: {
+            'Host': 'api.m.jd.com',
+            'Origin': 'https://h5.m.jd.com',
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'User-Agent': $.UA,
+            'Cookie': cookie
+        }
+    }
 		return new Promise((resolve) => {
-			$.post(apptaskUrl(functionId, sign), async (err, resp, data) => {
+			$.post(opt, async (err, resp, data) => {
 				try {
 					if (err) {
 						console.log(`${JSON.stringify(err)}`)
 						console.log(`jdCash API请求失败，请检查网路重试`)
 					} else {
 						if (safeGet(data)) {
-							data = JSON.parse(data);
-							if (data.code === 0 && data.data.result) {
-								$.jdCash = data.data.result.totalMoney || 0;								
-								return
-							}
-						}
+                            data = JSON.parse(data)
+                            if (data.code == 0) {
+                                if (data.data.bizCode == 0) {
+                                    $.jdCash = data.data.result.userMoney;
+                                } else {
+                                    //console.log(data.data.bizMsg);
+                                }
+                            } else {
+                                console.log(data.msg)
+                            }
+					    }
 					}
 				} catch (e) {
 					$.logErr(e, resp)
