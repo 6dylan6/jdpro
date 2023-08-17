@@ -2,7 +2,7 @@
 领现金换红包
 默认兑换30 变量CASHRED='5'
 8月31号下线 每天0 12 19点开抢，定时可提前1分钟
-1 1 1 1 *https://raw.githubusercontent.com/6dylan6/jdpro/main/jd_cashtored.js
+1 1 1 1 * https://raw.githubusercontent.com/6dylan6/jdpro/main/jd_cashtored.js
  */
 
 const $ = new Env('领现金兑换红包');
