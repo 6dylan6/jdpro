@@ -1,7 +1,7 @@
 /**
 特务之明星送好礼
 第一个CK黑号，自动退出
-15 21 * * * jd_superBrandStar_.js
+1 1 1 1 * jd_superBrandStar_.js
  */
 const $ = new Env('特务之明星送好礼');
 const notify = $.isNode() ? require('./sendNotify') : '';
