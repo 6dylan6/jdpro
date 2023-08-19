@@ -7,7 +7,7 @@
 每次抽奖间隔，默认1秒，控制变量 JXCXJDELAY='3'
 开启提现到上限转红包 JXCXJTORED='true'
 
-1 1 1 1 * https://raw.githubusercontent.com/6dylan6/jdpro/main/jd_cxjhelp.js
+1 1 1 1 * https://raw.githubusercontent.com/6dylan6/jdpro/main/jx_cxjhelp.js
 updatetime:2023/8/16 fixx
  */
 
