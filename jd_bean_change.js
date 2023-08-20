@@ -18,13 +18,13 @@ if ($.isNode() && process.env.BEANCHANGE_BEANDETAILMODE){
 
 const fs = require('fs');
 const CR = require('crypto-js');
+const moment = require("moment");
 let matchtitle="昨日";
 let yesterday="";
 let TodayDate="";
 let startDate="";
 let endDate="";
 try {
-    const moment = require("moment");
     yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD');
     TodayDate = moment().format("YYYY-MM-DD");
     startDate = moment().startOf("month").format("YYYY_MM");
@@ -1082,7 +1082,7 @@ async function jdCash() {
                                     //console.log(data.data.bizMsg);
                                 }
                             } else {
-                                console.log(data.msg)
+                                //console.log(data.msg)
                             }
 					    }
 					}
@@ -2144,7 +2144,7 @@ function dwappexpire() {
                 } else {
                     data = JSON.parse(data)
                     if (data.code == 200) {
-                        data = data.data.userOperateList.length !== 0 ? new Date(data.data.userOperateList[0].time).toLocaleDateString() : '';
+                        data = data.data.userOperateList.length !== 0 ? moment(new Date(data.data.userOperateList[0].time)).format('M/D') : '';
                     } else {
                         //console.log(data.msg);
 						data = '';

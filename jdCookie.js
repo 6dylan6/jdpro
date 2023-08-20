@@ -34,7 +34,7 @@ if (JSON.stringify(process.env).indexOf('GITHUB')>-1) {
 CookieJDs = [...new Set(CookieJDs.filter(item => !!item))]
 if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
 console.log(`\n====================共${CookieJDs.length}个京东账号Cookie=================\n`);
-console.log(`============脚本执行时间：${new Date(new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*60*60*1000).toLocaleString('chinese',{hour12:false})}=============\n`)
+console.log(`============脚本执行时间：${formatdate(new Date(new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*60*60*1000))}=============\n`)
 console.log('>>>>>>>>>>>>>>6Dylan6 提示：任务正常运行中>>>>>>>>>>>>>>>\n')
 for (let i = 0; i < CookieJDs.length; i++) {
   if (!CookieJDs[i].match(/pt_pin=(.+?);/) || !CookieJDs[i].match(/pt_key=(.+?);/)) console.log(`\n提示:京东cookie 【${CookieJDs[i]}】填写不规范,可能会影响部分脚本正常使用。正确格式为: pt_key=xxx;pt_pin=xxx;（分号;不可少）\n`);
@@ -167,3 +167,12 @@ let envName = process.env.ShareCodeEnvName
 if (nameChinese && nameConfig && envName) {
     SetShareCodesEnv(nameChinese, nameConfig, envName)
 } 
+function formatdate(date) {
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    const hours = ('0' + date.getHours()).slice(-2);
+    const minutes = ('0' + date.getMinutes()).slice(-2);
+    const seconds = ('0' + date.getSeconds()).slice(-2);
+    return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+}
