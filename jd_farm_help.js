@@ -1,6 +1,6 @@
 /*
 东东农场助力
-20 2,6 * * * jd_farm_help.js
+20 2,6,15 * * * jd_farm_help.js
 updatetime:2023/6/14
 dlan
 变量
