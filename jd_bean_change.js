@@ -120,9 +120,8 @@ let strGuoqi = "";
 let RemainMessage = '\n';
 RemainMessage += "⭕提醒:⭕" + '\n';
 RemainMessage += '【京喜特价金币】京东特价版->我的->金币(可兑换无门槛红包)\n';
-RemainMessage += '【领现金】京东->搜领现金(可微信提现或兑换红包)\n';
 RemainMessage += '【话费积分】京东->充值中心-赚积分兑话费（180天效期）\n';
-RemainMessage += '【超市卡】京东超市-超市卡（赠金30天效期，购买超市商品可用）\n';
+RemainMessage += '【超市卡】京东超市-超市卡赠金（30天效期，购买超市商品可用）\n';
 RemainMessage += '【东东农场】京东->我的->东东农场,完成可兑换无门槛红包,可用于任意商品\n';
 RemainMessage += '【其他】不同类别红包不能叠加使用，自测';
 
@@ -832,7 +831,7 @@ async function showMsg() {
         ReturnMessage += `\n`;
     }
     let marketcard = await marketCard();
-    if (marketcard) {
+    if (marketcard && marketcard.balance != '0.00' ) {
         ReturnMessage += `【超市卡】${marketcard.balance}元`;
         if (marketcard.expirationGiftAmountDes) {
             ReturnMessage += `(${marketcard.expirationGiftAmountDes})`;
