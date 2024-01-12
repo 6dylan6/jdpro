@@ -58,8 +58,17 @@ def printf(text):
 def get_remarkinfo():
     url='http://127.0.0.1:5600/api/envs'
     try:
-        with open('/ql/config/auth.json', 'r') as f:
-            token=json.loads(f.read())['token']
+        path = '/ql/config/auth.json'  # 设置青龙 auth文件地址
+        if not os.path.isfile(path):
+            path = '/ql/data/config/auth.json'  # 尝试设置青龙 auth 新版文件地址
+        if os.path.isfile(path):  # 进行文件真值判断
+            with open(path, "r") as file:  # 上下文管理
+                auth = file.read()  # 读取文件
+                file.close()  # 关闭文件
+            auth = json.loads(auth)  # 使用 json模块读取
+        # with open('/ql/config/auth.json', 'r') as f:
+        # token=json.loads(f.read())['token']
+        token = auth["token"]  # 提取 authkey
         headers={
             'Accept':'application/json',
             'authorization':'Bearer '+token,
