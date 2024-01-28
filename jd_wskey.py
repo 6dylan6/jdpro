@@ -42,6 +42,7 @@ except Exception as err:
 
 ver = 31207  # 版本号
 
+
 def ttotp(key):
     key = base64.b32decode(key.upper() + '=' * ((8 - len(key)) % 8))
     counter = struct.pack('>Q', int(time.time() / 30))
@@ -239,14 +240,20 @@ def check_ck(ck) -> bool:  # 方法 检查 Cookie有效性 使用变量传递 �
             'user-agent': ua
         }  # 设置 HTTP头
         try:
-            res = requests.get(url=url, headers=headers, verify=False, timeout=10, allow_redirects=False)  # 进行 HTTP请求[GET] 超时 10秒
+            res = requests.get(url=url, headers=headers, verify=False, timeout=10,
+                               allow_redirects=False)  # 进行 HTTP请求[GET] 超时 10秒
         except Exception as err:
             logger.debug(str(err))  # 调试日志输出
             logger.info("JD接口错误 请重试或者更换IP")  # 标准日志输出
             return False  # 返回 Bool类型 False
         else:
             if res.status_code == 200:  # 判断 JD_API 接口是否为 200 [HTTP_OK]
-                code = int(json.loads(res.text)['retcode'])  # 使用 Json模块对返回数据取值 int([retcode])
+                try:
+                    code = int(json.loads(res.text)['retcode'])  # 使用 Json模块对返回数据取值 int([retcode])
+                except Exception as err:
+                    logger.debug(str(err))
+                    logger.info("JD接口风控, 建议更换IP或增加间隔时间")
+                    return False
                 if code == 0:  # 判断 code值
                     logger.info(str(pin) + ";状态正常\n")  # 标准日志输出
                     return True  # 返回 Bool类型 True
@@ -268,7 +275,7 @@ def getToken(wskey):  # 方法 获取 Wskey转换使用的 Token 由 JD_API 返�
         logger.info("Params参数获取失败")  # 标准日志输出
         logger.debug(str(err))  # 调试日志输出
         # return False, wskey  # 返回 -> False[Bool], Wskey
-        return False # 返回 -> False[Bool], Wskey
+        return False  # 返回 -> False[Bool], Wskey
     headers = {
         'cookie': wskey,
         'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -354,7 +361,6 @@ def update():  # 方法 脚本更新模块
         logger.info("--------------------\n")  # 标准日志输出
         text = '当前脚本版本: {0}新版本: {1}, 请更新脚本~!'.format(ver, up_ver)  # 设置发送内容
         ql_send(text)
-        # sys.exit(0)  # 退出脚本 [未启用]
 
 
 def ql_api(method, api, body=None) -> dict:
@@ -377,6 +383,7 @@ def ql_api(method, api, body=None) -> dict:
             return res
     logger.info(f"\n青龙{api}接口多次重试仍然失败")
     sys.exit(1)
+
 
 def ql_check(port) -> bool:  # 方法 检查青龙端口
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Socket模块初始化
@@ -499,7 +506,8 @@ def cloud_info():  # 方法 云端信息
 
 
 def check_cloud():
-    url_list = ['aHR0cHM6Ly9hcGkubW9tb2UubGluay8=', 'aHR0cHM6Ly9hcGkubGltb2UuZXUub3JnLw==', 'aHR0cHM6Ly9hcGkuaWxpeWEuY2Yv']
+    url_list = ['aHR0cHM6Ly9hcGkubW9tb2UubGluay8=', 'aHR0cHM6Ly9hcGkubGltb2UuZXUub3JnLw==',
+                'aHR0cHM6Ly9hcGkuaWxpeWEuY2Yv']
     for i in url_list:
         url = str(base64.b64decode(i).decode())  # 设置 url地址 [str]
         try:
@@ -523,7 +531,8 @@ def check_port():  # 方法 检查变量传递端口
         logger.info(str(port) + "端口检查通过")  # 标准日志输出
         return port  # 返回->port
     else:
-        logger.info(str(port) + "端口检查失败, 如果改过端口, 请在变量中声明端口 \n在config.sh中加入 export QL_PORT=\"端口号\"")  # 标准日志输出
+        logger.info(
+            str(port) + "端口检查失败, 如果改过端口, 请在变量中声明端口 \n在config.sh中加入 export QL_PORT=\"端口号\"")  # 标准日志输出
         logger.info("\n如果你很确定端口没错, 还是无法执行, 在GitHub给我发issus\n--------------------\n")  # 标准日志输出
         sys.exit(1)  # 脚本退出
 
@@ -540,8 +549,8 @@ if __name__ == '__main__':  # Python主函数执行入口
     ua = cloud_arg['User-Agent']
     wslist = get_wskey()
     envlist = get_env()
-    sleepTime = int(os.environ.get("WSKEY_SLEEP","10") if str(os.environ.get("WSKEY_SLEEP")).isdigit() else "10")
-    tryCount = int(os.environ.get("WSKEY_TRY_COUNT","1") if str(os.environ.get("WSKEY_TRY_COUNT")).isdigit() else "1")
+    sleepTime = int(os.environ.get("WSKEY_SLEEP", "10") if str(os.environ.get("WSKEY_SLEEP")).isdigit() else "10")
+    tryCount = int(os.environ.get("WSKEY_TRY_COUNT", "1") if str(os.environ.get("WSKEY_TRY_COUNT")).isdigit() else "1")
     WSKEY_UPDATE_BOOL = bool(os.environ.get("WSKEY_UPDATE_HOUR"))
     WSKEY_AUTO_DISABLE = bool(os.environ.get("WSKEY_AUTO_DISABLE"))
     for ws in wslist:  # wslist变量 for循环  [wslist -> ws]
