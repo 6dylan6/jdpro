@@ -14,7 +14,7 @@ echo -e "安装脚本所需依赖，不一定一次全部安装成功，请自�
 echo -e "开始安装............\n"
 
 #apk add g++ make pixman-dev pango-dev cairo-dev pkgconf --no-cache
-apk add g++ make --no-cache
+#apk add g++ make --no-cache
 pnpm config set registry https://registry.npmmirror.com
 pnpm install -g
 pnpm install -g ds
