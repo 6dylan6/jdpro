@@ -23,7 +23,7 @@ sys.path.append(root_path)
 # 通知服务
 BARK = ''                   # bark服务,自行搜索; secrets可填;
 BARK_PUSH=''                # bark自建服务器，要填完整链接，结尾的/不要
-PUSH_KEY = ''                  # Server酱的PUSH_KEY; secrets可填
+PUSH_KEY = ''               # Server酱的PUSH_KEY; secrets可填
 TG_BOT_TOKEN = ''           # tg机器人的TG_BOT_TOKEN; secrets可填1407203283:AAG9rt-6RDaaX0HBLZQq0laNOh898iFYaRQ
 TG_USER_ID = ''             # tg机器人的TG_USER_ID; secrets可填 1434078534
 TG_API_HOST=''              # tg 代理api
@@ -33,8 +33,9 @@ DD_BOT_TOKEN = ''           # 钉钉机器人的DD_BOT_TOKEN; secrets可填
 DD_BOT_SECRET = ''          # 钉钉机器人的DD_BOT_SECRET; secrets可填
 QQ_SKEY = ''                # qq机器人的QQ_SKEY; secrets可填
 QQ_MODE = ''                # qq机器人的QQ_MODE; secrets可填
+QYWX_ORIGIN = 'qyapi.weixin.qq.com' # 企业微信反向代理地址
 QYWX_AM = ''                # 企业微信
-QYWX_KEY = ''                # 企业微信BOT
+QYWX_KEY = ''               # 企业微信BOT
 PUSH_PLUS_TOKEN = ''        # 微信推送Plus+
 FS_KEY = ''                 #飞书群BOT
 
@@ -70,6 +71,8 @@ if "QYWX_AM" in os.environ:
     if len(os.environ["QYWX_AM"]) > 1:
         QYWX_AM = os.environ["QYWX_AM"]
         
+if "QYWX_ORIGIN" in os.environ and os.environ["QYWX_ORIGIN"]:
+    QYWX_ORIGIN = os.environ["QYWX_ORIGIN"]
 
 if "QYWX_KEY" in os.environ:
     if len(os.environ["QYWX_KEY"]) > 1:
@@ -275,8 +278,8 @@ def wecom_key(title, content):
          }
     }
     
-    print(f"https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key={QYWX_KEY}")
-    response = requests.post(f"https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key={QYWX_KEY}", json=data,headers=headers).json()
+    print(f"https://{QYWX_ORIGIN}/cgi-bin/webhook/send?key={QYWX_KEY}")
+    response = requests.post(f"https://{QYWX_ORIGIN}/cgi-bin/webhook/send?key={QYWX_KEY}", json=data,headers=headers).json()
     print(response)
 
 # 飞书机器人推送
@@ -339,7 +342,7 @@ class WeCom:
         self.AGENTID = agentid
 
     def get_access_token(self):
-        url = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken'
+        url = 'https://{QYWX_ORIGIN}/cgi-bin/gettoken'
         values = {'corpid': self.CORPID,
                   'corpsecret': self.CORPSECRET,
                   }
@@ -348,7 +351,7 @@ class WeCom:
         return data["access_token"]
 
     def send_text(self, message, touser="@all"):
-        send_url = 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=' + self.get_access_token()
+        send_url = 'https://{QYWX_ORIGIN}/cgi-bin/message/send?access_token=' + self.get_access_token()
         send_values = {
             "touser": touser,
             "msgtype": "text",
@@ -364,7 +367,7 @@ class WeCom:
         return respone["errmsg"]
 
     def send_mpnews(self, title, message, media_id, touser="@all"):
-        send_url = 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=' + self.get_access_token()
+        send_url = 'https://{QYWX_ORIGIN}/cgi-bin/message/send?access_token=' + self.get_access_token()
         send_values = {
             "touser": touser,
             "msgtype": "mpnews",

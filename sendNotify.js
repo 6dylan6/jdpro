@@ -73,7 +73,7 @@ let DD_BOT_SECRET = '';
 //此处填你企业微信机器人的 webhook(详见文档 https://work.weixin.qq.com/api/doc/90000/90136/91770)，例如：693a91f6-7xxx-4bc4-97a0-0ec2sifa5aaa
 //(环境变量名 QYWX_KEY)
 let QYWX_KEY = '';
-
+let QYWX_ORIGIN = 'qyapi.weixin.qq.com';
 // =======================================企业微信应用消息通知设置区域===========================================
 /*
 此处填你企业微信应用消息的值(详见文档 https://work.weixin.qq.com/api/doc/90000/90135/90236)
@@ -232,6 +232,7 @@ async function sendNotify(text, desp, params = {}, author = "\n=================
         DD_BOT_TOKEN = '';
         DD_BOT_SECRET = '';
         QYWX_KEY = '';
+        QYWX_ORIGIN = 'qyapi.weixin.qq.com';
         QYWX_AM = '';
         FS_KEY = '';
         IGOT_PUSH_KEY = '';
@@ -684,6 +685,9 @@ async function sendNotify(text, desp, params = {}, author = "\n=================
         if (process.env["QYWX_AM" + UseGroupNotify] && Use_qywxamNotify) {
             QYWX_AM = process.env["QYWX_AM" + UseGroupNotify];
         }
+        
+        if (process.env["QYWX_ORIGIN"])
+            QYWX_ORIGIN = process.env["QYWX_ORIGIN"];
 
         if (process.env["FS_KEY" + UseGroupNotify] && Use_fsBotNotify) {
 		    FS_KEY = process.env["FS_KEY" + UseGroupNotify];
@@ -1492,7 +1496,7 @@ function ddBotNotify(text, desp) {
 function qywxBotNotify(text, desp) {
     return new Promise((resolve) => {
         const options = {
-            url: `https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=${QYWX_KEY}`,
+            url: `https://${QYWX_ORIGIN}/cgi-bin/webhook/send?key=${QYWX_KEY}`,
             json: {
                 msgtype: 'text',
                 text: {
@@ -1610,7 +1614,7 @@ function qywxamNotify(text, desp, strsummary = "") {
         if (QYWX_AM) {
             const QYWX_AM_AY = QYWX_AM.split(',');
             const options_accesstoken = {
-                url: `https://qyapi.weixin.qq.com/cgi-bin/gettoken`,
+                url: `https://${QYWX_ORIGIN}/cgi-bin/gettoken`,
                 json: {
                     corpid: `${QYWX_AM_AY[0]}`,
                     corpsecret: `${QYWX_AM_AY[1]}`,
@@ -1677,7 +1681,7 @@ function qywxamNotify(text, desp, strsummary = "") {
                     };
                 }
                 options = {
-                    url: `https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=${accesstoken}`,
+                    url: `https://${QYWX_ORIGIN}/cgi-bin/message/send?access_token=${accesstoken}`,
                     json: {
                         touser: `${ChangeUserId(desp)}`,
                         agentid: `${QYWX_AM_AY[3]}`,
