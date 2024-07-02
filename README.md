@@ -104,15 +104,21 @@ Recombin_CK_Mode="3" Recombin_CK_ARG1="5" Recombin_CK_ARG2="5"  假设有100个C
 
 ## 通用变量
 
-自定义sign  export SIGN_URL='url'
+代理API模式部分支持
 
-代理API export DY_PROXY='url'（部分js支持）
+DY_PROXY='URL1@URL2' 多个@分割
 
-API白名单模式 export PERMIT_API='fruit'
+PERMIT_API='test' 需要走API代理的js关键词，多个&分割，可不设置，支持的js都会走
 
-代理池 export DP_POOL='url'（全部js支持）
+DY_PROXY_RENUM='5'  获取IP失败重试次数
 
-代理池白名单（js文件名关键字如fruit），如fruit export PERMIT_JS='fruit'
+DY_PROXY_REDELAY='3' 获取失败重试间隔 单位秒
+
+代理池模式支持全部js脚
+
+DP_POOL='http://xxx' 代理池url
+
+PERMIT_JS='farm&plant&opencard' 需要走代理池的js关键词，多个&分割，必须设置
 
 
 ## 支持的通知方式
