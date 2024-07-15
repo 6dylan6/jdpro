@@ -1,5 +1,5 @@
 /*
-0 0 15 7 * jd_opencard715.js 
+0 0 15 7 * jd_opencard0715.js
 */
 
 const $ = new Env('7.15-7.22 夏日有礼 大牌惊喜');
