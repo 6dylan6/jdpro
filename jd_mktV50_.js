@@ -1,5 +1,5 @@
 /*
-5 0,16 * * 5 jd_MktV50.js
+5 0,16 * * 5 jd_mktV50_.js
  */
 
 const $ = new Env('V你50超市卡');
