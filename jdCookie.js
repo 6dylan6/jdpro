@@ -33,9 +33,36 @@ if (JSON.stringify(process.env).indexOf('GITHUB') > -1) {
 //})()
 CookieJDs = [...new Set(CookieJDs.filter(item => !!item))]
 if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => { };
+if (process.env.BANPIN) {
+  try {
+    let banpin = process.env.BANPIN;
+    if (banpin.includes('@')) {
+      const arr = banpin.split('&');
+      for (let i of arr) {
+        //if (process.mainModule.filename.includes(i.split('^')[0])) {
+        if (i.split('@')[0].split('|').filter(x => process.argv[1].includes(x)).length != 0) {
+          let pinarr = i.split('@')[1].split(',');
+          console.log(`已配置该任务不执行pin: ${JSON.stringify(pinarr)}`);
+          for (let j of pinarr) {
+            CookieJDs = CookieJDs.filter(x => !x.includes(j));
+          }
+
+        }
+      }
+
+    } else {
+      let pinarr = banpin.split(',');
+      console.log(`已配置全局不执行pin: ${JSON.stringify(pinarr)}`);
+      for (let i of pinarr) {
+        CookieJDs = CookieJDs.filter(x => !x.includes(i));
+      }
+    }
+  } catch { }
+}
 console.log(`\n====================共${CookieJDs.length}个京东账号Cookie=================`);
 console.log(`===========脚本执行时间：${formatdate(new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000))}============`);
 console.log('>>>>>>>>>>>>6Dy提醒您：有问题先更新不行在反馈>>>>>>>>>>>>>\n');
+
 for (let i = 0; i < CookieJDs.length; i++) {
   if (!CookieJDs[i].match(/pt_pin=(.+?);/) || !CookieJDs[i].match(/pt_key=(.+?);/)) console.log(`\n提示:京东cookie 【${CookieJDs[i]}】填写不规范,可能会影响部分脚本正常使用。正确格式为: pt_key=xxx;pt_pin=xxx;（分号;不可少）\n`);
   CookieJDs[i] = CookieJDs[i].replace(/[\u4e00-\u9fa5]/g, (str) => encodeURI(str));
