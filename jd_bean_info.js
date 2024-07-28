@@ -114,7 +114,10 @@ async function bean() {
           }
         }
       } else {
-        $.errorMsg = `数据异常`;
+        // 完全无数据时才抛出异常，否则返回之前统计出来的数据
+        if (!todayArr.length && !yesterdayArr.length) {
+          $.errorMsg = `数据异常`;
+        }
         // $.msg($.name, ``, `账号${$.index}：${$.nickName}\n${$.errorMsg}`);
         t = 1;
       }
