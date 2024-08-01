@@ -44,7 +44,7 @@ if (process.env.BANPIN) {
           let pinarr = i.split('@')[1].split(',');
           console.log(`已配置该任务不执行pin: ${JSON.stringify(pinarr)}`);
           for (let j of pinarr) {
-            CookieJDs = CookieJDs.filter(x => !x.includes(encodeURIComponent(j)));
+            CookieJDs = CookieJDs.filter(x => !x.includes(decodeURIComponent(j)));
           }
 
         }
@@ -54,7 +54,7 @@ if (process.env.BANPIN) {
       let pinarr = banpin.split(',');
       console.log(`已配置全局不执行pin: ${JSON.stringify(pinarr)}`);
       for (let i of pinarr) {
-        CookieJDs = CookieJDs.filter(x => !x.includes(encodeURIComponent(i)));
+        CookieJDs = CookieJDs.filter(x => !x.includes(decodeURIComponent(i)));
       }
     }
   } catch { }
