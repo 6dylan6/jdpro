@@ -1,5 +1,5 @@
 /*
-cron "6 6 6 6 *" jd_CheckCK.js, tag:京东CK检测by-ccwav
+cron "0 0/8 * * *" jd_CheckCK.js, tag:京东CK检测by-ccwav
  */
 //详细说明参考 https://github.com/ccwav/QLScript2.
 const $ = new Env('CK检测');
