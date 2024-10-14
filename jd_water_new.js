@@ -1,6 +1,6 @@
 /*
 
-15 1 29 2 * jd_water_new.js
+15 1 * * * jd_water_new.js
 
 */
 const $ = new Env('新农场浇水');

@@ -5,7 +5,7 @@
 JD_FCWB_InviterId // 指定助力码 非必须，不填默认助力账号一  格式：inviterId&inviterCode
 JD_FCWB_NUM // 指定人数  非必须，不填默认跑全部账号
 
-cron:1 1 1 1 *
+cron:5 1 * * *
 
 */
 
