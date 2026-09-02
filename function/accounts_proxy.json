@@ -1,0 +1,11 @@
+{
+  "_说明1": "key 填 cookie 里 pt_pin 的值（如 jd_xxxxx），value 填该账号要固定的代理地址",
+  "_说明2": "value 以 socks 开头（socks5://）走 SOCKS5；其余走 HTTP（裸写会自动补 http://）",
+  "_说明3": "支持账号密码认证：user:pass@host:port；每个账号各写一行，互不影响",
+  "_示例_socks5带认证": "socks5://user:pass@192.168.10.10:2023",
+  "_示例_http带认证": "http://user:pass@192.168.10.11:8080",
+  "_示例_http裸写": "192.168.10.12:8080",
+
+  "_jd_xxx": "socks5://user1:pass1@1.2.3.4:1080",
+  "_jd_vvv": "http://user2:pass2@5.6.7.8:8080"
+}
